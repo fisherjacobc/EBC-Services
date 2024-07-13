@@ -1,4 +1,3 @@
-import { Result } from "@sapphire/framework";
 import axios from "axios";
 import type { Attachment } from "discord.js";
 import { config as dotenv } from "dotenv";
@@ -94,7 +93,7 @@ export const convertToGuilded = (tokens: TokensList, image?: string) => {
   tokens.forEach((token) => {
     switch (token.type) {
       case "heading":
-        if (token.depth === 1 && jsonBody.title !== "Announcement") {
+        if (token.depth === 1 && jsonBody.title === "Announcement") {
           jsonBody.title = token.text;
         } else {
           jsonBody.content.document.nodes.push(
