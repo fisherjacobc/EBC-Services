@@ -41,7 +41,7 @@ export const createText = (text: string) => {
 }
 
 export const convertToGuilded = (tokens: TokensList) => {
-    const startingPoint = {
+    const jsonBody = {
         title: "Announcement",
         content: {
             object: "value",
@@ -59,16 +59,18 @@ export const convertToGuilded = (tokens: TokensList) => {
     tokens.forEach((token) => {
         switch (token.type) {
             case "heading":
-                if (token.depth === 1 && startingPoint.title !== "Announcement") {
-                    startingPoint.title = token.text;
+                if (token.depth === 1 && jsonBody.title !== "Announcement") {
+                    jsonBody.title = token.text;
                 } else {
-                    startingPoint.content.document.nodes.push(createHeading(token.depth <= 2 ? "heading-large" : "heading-small", token.text))
+                    jsonBody.content.document.nodes.push(createHeading(token.depth <= 2 ? "heading-large" : "heading-small", token.text))
                 }
                 break;
             default:
                 if (token.type !== "space" && token.type !== "table" && token.type !== "hr" && token.type !== "list" && token.type !== "checkbox" && token.type !== "html" && token.type !== "def" && token.type !== "br") return;
-                startingPoint.content.document.nodes.push(createText((token as Tokens.Text).text))
+                jsonBody.content.document.nodes.push(createText((token as Tokens.Text).text))
                 break;
         }
     })
+
+    return jsonBody;
 }
