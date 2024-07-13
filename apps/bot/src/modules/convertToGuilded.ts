@@ -1,3 +1,4 @@
+import { Result } from "@sapphire/framework";
 import axios from "axios";
 import type { Attachment } from "discord.js";
 import { config as dotenv } from "dotenv";
@@ -44,7 +45,37 @@ export const createText = (text: string) => {
   };
 };
 
-export const convertToGuilded = (tokens: TokensList) => {
+export const createImage = (image: string) => {
+  return {
+    object: "block",
+    type: "image",
+    data: {
+      src: image,
+      name: "AnnouncementImage.webp",
+    },
+    nodes: [
+      {
+        object: "block",
+        type: "image-caption-line",
+        data: {},
+        nodes: [
+          {
+            object: "text",
+            leaves: [
+              {
+                object: "leaf",
+                text: "Announcement Image",
+                marks: [],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+};
+
+export const convertToGuilded = (tokens: TokensList, image?: string) => {
   const jsonBody = {
     title: "Announcement",
     content: {
@@ -88,6 +119,8 @@ export const convertToGuilded = (tokens: TokensList) => {
     }
   });
 
+  if (image) jsonBody.content.document.nodes.push(createImage(image));
+
   return jsonBody;
 };
 
@@ -117,5 +150,19 @@ export const discordImageToGuilded = async (attachment?: Attachment) => {
     return image.data.url;
   } catch (error) {
     return undefined;
+  }
+};
+
+export const announceToGuilded = async (body: object) => {
+  try {
+    const headers = JSON.parse(process.env.GUILDED_HEADERS);
+
+    await axios.post(process.env.GUILDED_REQUEST_URL, body, {
+      headers,
+    });
+
+    return "Forwarded Successfully!";
+  } catch (error) {
+    return "An unknown error occurred.";
   }
 };
