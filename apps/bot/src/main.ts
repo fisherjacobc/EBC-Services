@@ -8,6 +8,9 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       DISCORD_TOKEN: string;
+
+      GUILDED_REQUEST_URL: string;
+      GUILDED_HEADERS: string;
     }
   }
 }
