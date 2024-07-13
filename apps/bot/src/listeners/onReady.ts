@@ -15,9 +15,11 @@ export class ClientReadyListener extends Listener {
 
   public run(client: Client) {
     client.logger.info(
-      `Bot Client Logged in as ${client.user!.tag} (${client.application?.id})`
+      `Bot Client Logged in as ${// biome-ignore lint/style/noNonNullAssertion: <explanation>
+client.user!.tag} (${client.application?.id})`
     );
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     client.user!.setActivity({
       type: ActivityType.Watching,
       name: "over EBC",
