@@ -1,6 +1,7 @@
 import { Command } from '@sapphire/framework';
 import { ApplicationCommandType, MessageContextMenuCommandInteraction } from 'discord.js';
 import { lexer } from 'marked';
+import { convertToGuilded } from '../modules/convertToGuilded';
 
 export class ForwardAnnouncementCommand extends Command {
   public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -25,9 +26,12 @@ export class ForwardAnnouncementCommand extends Command {
     const messageContent = interaction.targetMessage.content;
     const regex = /<:[a-zA-Z0-9]+:\d+>/g;
     const messageContentWithoutCustomEmojis = messageContent.replace(regex, '');
+    const parsed = lexer(messageContentWithoutCustomEmojis);
+
+    const convertedToGuilded = convertToGuilded(parsed);
 
     return interaction.reply({ 
-      content: `\`\`\`json\n${JSON.stringify(lexer(messageContent))}\n\`\`\``, 
+      content: `\`\`\`json\n${JSON.stringify(parsed)}\n\`\`\``, 
       ephemeral: true
     })
   }
