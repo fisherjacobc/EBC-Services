@@ -103,14 +103,14 @@ export const convertToGuilded = (tokens: TokensList, image?: string) => {
         break;
       default:
         if (
-          token.type !== "space" &&
-          token.type !== "table" &&
-          token.type !== "hr" &&
-          token.type !== "list" &&
-          token.type !== "checkbox" &&
-          token.type !== "html" &&
-          token.type !== "def" &&
-          token.type !== "br"
+          token.type === "space" ||
+          token.type === "table" ||
+          token.type === "hr" ||
+          token.type === "list" ||
+          token.type === "checkbox" ||
+          token.type === "html" ||
+          token.type === "def" ||
+          token.type === "br"
         )
           return;
         jsonBody.content.document.nodes.push(createText((token as Tokens.Text).text));
@@ -162,6 +162,7 @@ export const announceToGuilded = async (body: object) => {
 
     return "Forwarded Successfully!";
   } catch (error) {
+    console.log(error);
     return "An unknown error occurred.";
   }
 };

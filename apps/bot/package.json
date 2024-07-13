@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "watch": "nodemon --watch src --exec tsup src --format esm",
-    "start": "nodemon dist/main.js",
+    "start": "nodemon --watch dist --exec node dist/main.js",
     "dev": "pnpm run \"/^(watch|start)/\""
   },
   "dependencies": {

@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-declare module '@sapphire/framework' {
+declare module "@sapphire/framework" {
   interface Preconditions {
     isDirectorate: never;
     isGoverningBoard: never;
@@ -32,5 +32,5 @@ const client = new SapphireClient({
   loadMessageCommandListeners: true,
 });
 
-ApplicationCommandRegistries.setDefaultGuildIds([Config.guildId])
+ApplicationCommandRegistries.setDefaultGuildIds([Config.guildId]);
 client.login(process.env.DISCORD_TOKEN);
