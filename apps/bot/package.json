@@ -1,0 +1,24 @@
+{
+  "name": "bot",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "watch": "nodemon --watch src --exec tsup src --format esm",
+    "start": "nodemon dist/main.js",
+    "dev": "pnpm run \"/^(watch|start)/\""
+  },
+  "dependencies": {
+    "@discordjs/builders": "^1.8.2",
+    "@sapphire/framework": "^5.2.1",
+    "discord.js": "14.x",
+    "dotenv": "^16.4.5",
+    "marked": "^13.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3"
+  }
+}
