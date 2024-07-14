@@ -1,6 +1,7 @@
 import { ApplicationCommandRegistries, SapphireClient } from "@sapphire/framework";
 import { GatewayIntentBits } from "discord.js";
 import { config as dotenv } from "dotenv";
+import bloxlinkGuild from "@codiium/bloxlink-api/guild";
 import Config from "./#config";
 dotenv();
 
@@ -11,6 +12,8 @@ declare global {
 
       GUILDED_REQUEST_URL: string;
       GUILDED_HEADERS: string;
+
+      BLOXLINK_API_KEY: string;
     }
   }
 }
@@ -34,3 +37,6 @@ const client = new SapphireClient({
 
 ApplicationCommandRegistries.setDefaultGuildIds([Config.guildId]);
 client.login(process.env.DISCORD_TOKEN);
+
+// Initialize Bloxlink
+bloxlinkGuild.setGuildApiKey(process.env.BLOXLINK_API_KEY);

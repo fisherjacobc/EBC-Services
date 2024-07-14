@@ -14,6 +14,9 @@ importers:
 
   apps/bot:
     dependencies:
+      '@codiium/bloxlink-api':
+        specifier: ^4.2.0
+        version: 4.2.0
       '@discordjs/builders':
         specifier: ^1.8.2
         version: 1.8.2
@@ -135,6 +138,15 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@codiium/bloxlink-api@4.2.0:
+    resolution: {integrity: sha512-sUtjxHbRDpid3O2NWaVDtfLDx+S5WYRISm6WsrDJHCysj9VfAhQ2qsnbjuJHKBdIUaeUrfUeEMnSJBP/+NClRQ==}
+    dependencies:
+      axios: 1.7.2
+      discord-api-types: 0.37.92
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /@discordjs/builders@1.8.2:
     resolution: {integrity: sha512-6wvG3QaCjtMu0xnle4SoOIeFB4y6fKMN6WZfy3BMKJdQQtPLik8KGzDwBVL/+wTtcE/ZlFjgEk74GublyEVZ7g==}
