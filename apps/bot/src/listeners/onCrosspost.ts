@@ -1,7 +1,11 @@
 import { Events, Listener } from "@sapphire/framework";
 import { Message, MessageFlags } from "discord.js";
 import { lexer } from "marked";
-import { discordImageToGuilded, convertToGuilded, announceToGuilded } from "../modules/convertToGuilded";
+import {
+  discordImageToGuilded,
+  convertToGuilded,
+  announceToGuilded,
+} from "../resources/modules/convertToGuilded";
 
 export class CrosspostedListener extends Listener {
   public constructor(context: Listener.LoaderContext, options: Listener.Options) {

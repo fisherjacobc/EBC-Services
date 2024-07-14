@@ -1,7 +1,11 @@
 import { Command } from "@sapphire/framework";
 import { ApplicationCommandType, MessageContextMenuCommandInteraction } from "discord.js";
 import { lexer } from "marked";
-import { announceToGuilded, convertToGuilded, discordImageToGuilded } from "../modules/convertToGuilded";
+import {
+  announceToGuilded,
+  convertToGuilded,
+  discordImageToGuilded,
+} from "../resources/modules/convertToGuilded";
 
 export class ForwardAnnouncementCommand extends Command {
   public constructor(context: Command.LoaderContext, options: Command.Options) {
