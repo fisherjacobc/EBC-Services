@@ -1,10 +1,30 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import { parseDate } from "chrono-node";
-import bloxlinkGuild from "@codiium/bloxlink-api/guild";
+import { casual } from "chrono-node";
 import embed from "../resources/templates/embed";
-import Config from "../#config";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
 import colors from "../resources/constants/colors";
+
+const customTimeParser = casual.clone();
+customTimeParser.refiners.push({
+  refine: (context, results) => {
+    // If there is no AM/PM (meridiem) specified,
+    //  let all time between 0:00 - 06:00 be PM (12.00 - 18.00)
+    results.forEach((result) => {
+      if (
+        !result.start.isCertain("meridiem") &&
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        result.start.get("hour")! >= 0 &&
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        result.start.get("hour")! < 6
+      ) {
+        result.start.assign("meridiem", 1);
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        result.start.assign("hour", result.start.get("hour")! + 12);
+      }
+    });
+    return results;
+  },
+});
 
 export class HostCommand extends Subcommand {
   public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -67,14 +87,15 @@ export class HostCommand extends Subcommand {
   }
 
   public async hostRoute(interaction: Subcommand.ChatInputCommandInteraction) {
-    interaction.deferReply();
+    // interaction.deferReply();
+
     const { client } = this.container;
     const { options: args } = interaction;
 
     const host = interaction.user;
     const time = args.getString("time", true);
 
-    const parsedTime = parseDate(time, {
+    const parsedTime = customTimeParser.parseDate(time, {
       timezone: "ET",
     });
     if (!parsedTime)
@@ -82,22 +103,13 @@ export class HostCommand extends Subcommand {
         embeds: [embed.err("Unable to parse date, please try again.")],
       });
 
-    let bloxlinkUser: string;
-    try {
-      bloxlinkUser = (await bloxlinkGuild.DiscordToRoblox(Config.guildId, host.id)).robloxID;
-    } catch (error) {
-      return interaction.editReply({
-        embeds: [embed.err("You aren't linked with Bloxlink! Link your account, and then try again")],
-      });
-    }
-
     const routeEmbed = new EmbedBuilder()
       .setColor(colors.Blank)
       .setDescription("## Route: Redwater, Virginia")
       .addFields(
         {
           name: ":bust_in_silhouette: Host",
-          value: `<@${interaction.user.id}>`,
+          value: `<@${host.id}>`,
           inline: true,
         },
         {
@@ -119,8 +131,8 @@ export class HostCommand extends Subcommand {
         },
       )
       .setAuthor({
-        name: `@${interaction.user.username}`,
-        iconURL: interaction.user.displayAvatarURL(),
+        name: `@${host.username}`,
+        iconURL: host.displayAvatarURL(),
       })
       // biome-ignore lint/style/noNonNullAssertion: client exists
       .setThumbnail(client.user!.displayAvatarURL())
@@ -135,15 +147,15 @@ export class HostCommand extends Subcommand {
     const postButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Primary)
       .setLabel("Post")
-      .setCustomId(`${interaction.user.id}@host.post`);
+      .setCustomId(`${host.id}@host.post`);
     const cancelButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Danger)
       .setLabel("Cancel")
-      .setCustomId(`${interaction.user.id}@host.cancel`);
+      .setCustomId(`${host.id}@host.cancel`);
 
     const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(postButton, cancelButton);
 
-    return interaction.editReply({
+    return interaction.reply({
       content: "Please confirm that everything looks correct, then press post.",
       embeds: [routeEmbed],
       components: [buttonsRow],
