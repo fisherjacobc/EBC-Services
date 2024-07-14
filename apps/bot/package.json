@@ -15,6 +15,7 @@
     "@sapphire/framework": "^5.2.1",
     "@sapphire/plugin-subcommands": "^6.0.3",
     "axios": "^1.7.2",
+    "chrono-node": "^2.7.6",
     "discord.js": "14.x",
     "dotenv": "^16.4.5",
     "marked": "^13.0.2"
