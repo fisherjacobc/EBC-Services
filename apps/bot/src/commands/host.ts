@@ -103,6 +103,9 @@ export class HostCommand extends Subcommand {
         embeds: [embed.err("Unable to parse date, please try again.")],
       });
 
+    const cohost = args.getUser("co-host", false);
+    const unixTime = Math.floor(parsedTime.getTime() / 1000);
+
     const routeEmbed = new EmbedBuilder()
       .setColor(colors.Blank)
       .setDescription("## Route: Redwater, Virginia")
@@ -114,12 +117,12 @@ export class HostCommand extends Subcommand {
         },
         {
           name: ":bust_in_silhouette: Co-Host",
-          value: args.getUser("cohost", false) ? `<@${args.getUser("cohost", false)?.id}>` : "N/A",
+          value: cohost ? `<@${cohost.id}>` : "N/A",
           inline: true,
         },
         {
           name: ":clock3: Time",
-          value: `**<t:${parsedTime.getTime() / 1000}> (<t:${parsedTime.getTime() / 1000}:R>)**`,
+          value: `**<t:${unixTime}> (<t:${unixTime}:R>)**`,
         },
         {
           name: ":pencil: Notes",
