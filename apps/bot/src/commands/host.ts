@@ -159,8 +159,87 @@ export class HostCommand extends Subcommand {
     const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(postButton, cancelButton);
 
     return interaction.reply({
-      content: "Please confirm that everything looks correct, then press post.",
+      content: "Please confirm that everything looks correct for your route, then press post.",
       embeds: [routeEmbed],
+      components: [buttonsRow],
+    });
+  }
+
+  public async hostTraining(interaction: Subcommand.ChatInputCommandInteraction) {
+    // interaction.deferReply();
+
+    const { client } = this.container;
+    const { options: args } = interaction;
+
+    const host = interaction.user;
+    const time = args.getString("time", true);
+
+    const parsedTime = customTimeParser.parseDate(time, {
+      timezone: "ET",
+    });
+    if (!parsedTime)
+      return interaction.editReply({
+        embeds: [embed.err("Unable to parse date, please try again.")],
+      });
+
+    const cohost = args.getUser("co-host", false);
+    const unixTime = Math.floor(parsedTime.getTime() / 1000);
+
+    const trainingEmbed = new EmbedBuilder()
+      .setColor(colors.Blank)
+      .setDescription("## Eastern Bus Co CDL Training")
+      .addFields(
+        {
+          name: ":bust_in_silhouette: Host",
+          value: `<@${host.id}>`,
+          inline: true,
+        },
+        {
+          name: ":bust_in_silhouette: Co-Host",
+          value: cohost ? `<@${cohost.id}>` : "N/A",
+          inline: true,
+        },
+        {
+          name: ":clock3: Time",
+          value: `**<t:${unixTime}> (<t:${unixTime}:R>)**`,
+        },
+        {
+          name: ":pencil: Notes",
+          value: args.getString("notes") || "No notes provided",
+        },
+        {
+          name: ":globe_with_meridians: Link",
+          value: "https://www.roblox.com/games/6817047049/EBC-CDL-Training-Center",
+        },
+      )
+      .setAuthor({
+        name: `@${host.username}`,
+        iconURL: host.displayAvatarURL(),
+      })
+      // biome-ignore lint/style/noNonNullAssertion: client exists
+      .setThumbnail(client.user!.displayAvatarURL())
+      .setFooter({
+        // biome-ignore lint/style/noNonNullAssertion: client exists
+        text: client.user!.username,
+        // biome-ignore lint/style/noNonNullAssertion: client exists
+        iconURL: client.user!.displayAvatarURL(),
+      })
+      .setTimestamp();
+
+    const postButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Primary)
+      .setLabel("Post")
+      .setCustomId(`${host.id}@host.post`);
+    const cancelButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Danger)
+      .setLabel("Cancel")
+      .setCustomId(`${host.id}@host.cancel`);
+
+    const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(postButton, cancelButton);
+
+    return interaction.reply({
+      content: "Please confirm that everything looks correct for your training, then press post.",
+      embeds: [trainingEmbed],
       components: [buttonsRow],
     });
   }
