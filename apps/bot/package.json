@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "watch": "nodemon --watch src --exec tsup src --format esm",
+    "watch": "tsup --onSuccess tsc",
     "start": "nodemon --watch dist --exec node dist/main.js",
     "dev": "pnpm run \"/^(watch|start)/\""
   },

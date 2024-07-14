@@ -16,11 +16,12 @@
       "noUncheckedIndexedAccess": true,
       "forceConsistentCasingInFileNames": false,
       "noEmitOnError": true,
+      "noEmit": true,
       "stripInternal": true,
   
       // modules
-        "module": "ESNext",
-        "moduleResolution": "Bundler",
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
       "moduleDetection": "force",
   
       // improves some tools like esbuild that cannot omit type-only imports properly
