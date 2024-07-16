@@ -1,5 +1,8 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import Config from "../#config";
+import noblox from "noblox.js";
+import bloxlinkGuild from "@codiium/bloxlink-api/guild";
+import embed from "../resources/templates/embed";
 
 export class RankCommand extends Subcommand {
   public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -123,5 +126,48 @@ export class RankCommand extends Subcommand {
     );
   }
 
-  public async hostRoute(interaction: Subcommand.ChatInputCommandInteraction) {}
+  private async getRobloxUserIdFromInteraction(interaction: Subcommand.ChatInputCommandInteraction) {
+    const robloxId = interaction.options.getInteger("roblox_id", false);
+    if (robloxId) return robloxId;
+
+    const robloxUsername = interaction.options.getString("roblox_username", false);
+    if (robloxUsername) return await noblox.getIdFromUsername(robloxUsername);
+
+    const discordUser = interaction.options.getUser("discord_user", false);
+    if (!discordUser) {
+      interaction.editReply({
+        embeds: [
+          embed.err(
+            "You must supply at least one of the options: 'roblox_id', 'roblox_username', or 'discord_user'",
+          ),
+        ],
+      });
+      return undefined;
+    }
+    try {
+      return Number.parseInt((await bloxlinkGuild.DiscordToRoblox(Config.guildId, discordUser.id)).robloxID);
+    } catch (error) {
+      interaction.editReply({
+        embeds: [
+          embed.err("They aren't linked with Bloxlink! Have them link their account, and then try again"),
+        ],
+      });
+      return undefined;
+    }
+  }
+
+  public async rankSet(interaction: Subcommand.ChatInputCommandInteraction) {
+    const robloxId = this.getRobloxUserIdFromInteraction(interaction);
+    if (!robloxId) return;
+  }
+
+  public async rankSuspend(interaction: Subcommand.ChatInputCommandInteraction) {
+    const robloxId = this.getRobloxUserIdFromInteraction(interaction);
+    if (!robloxId) return;
+  }
+
+  public async rankBusDriver(interaction: Subcommand.ChatInputCommandInteraction) {
+    const robloxId = this.getRobloxUserIdFromInteraction(interaction);
+    if (!robloxId) return;
+  }
 }
