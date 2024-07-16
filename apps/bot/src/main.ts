@@ -22,6 +22,11 @@ declare module "@sapphire/framework" {
   interface Preconditions {
     isDirectorate: never;
     isGoverningBoard: never;
+
+    isSupervisorOrAbove: never;
+
+    canTrain: never;
+    canHostRoute: never;
   }
 }
 

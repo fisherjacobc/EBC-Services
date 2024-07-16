@@ -5,6 +5,10 @@ export default {
     governingBoard: "1232448282186350663",
     coordinator: "1232449455580778506",
 
+    associateSupervisor: "1232447390791893076",
+    trainingAssociate: "1232447394323628096",
+    transportationCoordinationAssociate: "1232447391492210850",
+
     busDriver: "1232447398165348433",
     studentDriver: "1232447400291991603",
   },

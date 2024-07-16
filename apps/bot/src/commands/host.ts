@@ -35,10 +35,12 @@ export class HostCommand extends Subcommand {
         {
           name: "route",
           chatInputRun: "hostRoute",
+          preconditions: ["canHostRoute"],
         },
         {
           name: "training",
           chatInputRun: "hostTraining",
+          preconditions: ["canTrain"],
         },
       ],
     });
