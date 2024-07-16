@@ -5,59 +5,59 @@ export default {
   groupRanks: {
     seniorDeveloper: {
       friendlyName: "Senior Developer",
-      roleId: 95,
+      rankId: 95,
     },
     developer: {
       friendlyName: "Developer",
-      roleId: 85,
+      rankId: 85,
     },
     associateSupervisor: {
       friendlyName: "Associate Supervisor",
-      roleId: 75,
+      rankId: 75,
     },
     transportationCoordinationAssociate: {
       friendlyName: "Transportation Coordination Associate",
-      roleId: 70,
+      rankId: 70,
     },
     dispatchAndFleetAssuranceAssociate: {
       friendlyName: "Dispatch & Fleet Assurance Associate",
-      roleId: 69,
+      rankId: 69,
     },
     moderationAssociate: {
       friendlyName: "Moderation Associate",
-      roleId: 68,
+      rankId: 68,
     },
     trainingAssociate: {
       friendlyName: "Training Associate",
-      roleId: 67,
+      rankId: 67,
     },
     associateTrainee: {
       friendlyName: "Associate Trainee",
-      roleId: 62,
+      rankId: 62,
     },
     alliedAssociate: {
       friendlyName: "Allied Associate",
-      roleId: 61,
+      rankId: 61,
     },
     honoraryAlumni: {
       friendlyName: "Honorary Alumni",
-      roleId: 60,
+      rankId: 60,
     },
     leadDriver: {
       friendlyName: "Lead Driver",
-      roleId: 58,
+      rankId: 58,
     },
     busDriver: {
       friendlyName: "Bus Driver",
-      roleId: 54,
+      rankId: 54,
     },
     administrativeLeave: {
       friendlyName: "Administrative Leave",
-      roleId: 52,
+      rankId: 52,
     },
     studentDriver: {
       friendlyName: "Student Driver",
-      roleId: 50,
+      rankId: 50,
     },
   },
 
@@ -76,5 +76,7 @@ export default {
   channels: {
     routes: "860897795749707856",
     trainings: "860897811914686475",
+
+    rankChanges: "930549975581081662",
   },
 };
