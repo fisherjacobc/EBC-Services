@@ -3,6 +3,7 @@ import { GatewayIntentBits } from "discord.js";
 import { config as dotenv } from "dotenv";
 import bloxlinkGuild from "@codiium/bloxlink-api/guild";
 import Config from "./#config";
+import { initialize } from "./resources/modules/roblox";
 dotenv();
 
 declare global {
@@ -14,6 +15,7 @@ declare global {
       GUILDED_HEADERS: string;
 
       BLOXLINK_API_KEY: string;
+      ROBLOX_COOKIE: string;
     }
   }
 }
@@ -46,3 +48,6 @@ client.login(process.env.DISCORD_TOKEN);
 
 // Initialize Bloxlink
 bloxlinkGuild.setGuildApiKey(process.env.BLOXLINK_API_KEY);
+
+// Initialize Roblox/Noblox
+initialize(process.env.ROBLOX_COOKIE, Config.groupId);

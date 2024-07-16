@@ -1,5 +1,6 @@
 export default {
   guildId: "780176091989803048",
+  groupId: 8406914,
 
   roleIds: {
     governingBoard: "1232448282186350663",
