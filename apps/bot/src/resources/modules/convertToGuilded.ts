@@ -123,7 +123,7 @@ export const convertToGuilded = (tokens: TokensList, image?: string) => {
   return jsonBody;
 };
 
-export const discordImageToGuilded = async (attachment?: Attachment) => {
+export const discordImageToGuilded = async (attachment?: Attachment): Promise<string | undefined> => {
   if (!attachment) return undefined;
   if (!attachment.contentType?.includes("image")) return undefined;
   const { url } = attachment;
