@@ -37,13 +37,13 @@ export class OperationButtonHandler extends InteractionHandler {
       try {
         if (training) {
           (trainingsChannel as TextChannel).send({
-            // content: `<@&${Config.roleIds.studentDriver}>`,
+            content: `<@&${Config.roleIds.studentDriver}>`,
             // biome-ignore lint/style/noNonNullAssertion: <explanation>
             embeds: [interaction.message.embeds[0]!],
           });
         } else {
           (routesChannel as TextChannel).send({
-            // content: `<@&${Config.roleIds.busDriver}>`,
+            content: `<@&${Config.roleIds.busDriver}>`,
             // biome-ignore lint/style/noNonNullAssertion: <explanation>
             embeds: [interaction.message.embeds[0]!],
           });
