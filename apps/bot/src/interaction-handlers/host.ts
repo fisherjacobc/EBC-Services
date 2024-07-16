@@ -1,5 +1,10 @@
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
-import type { ButtonInteraction, TextChannel } from "discord.js";
+import {
+  GuildScheduledEventEntityType,
+  GuildScheduledEventPrivacyLevel,
+  type ButtonInteraction,
+  type TextChannel,
+} from "discord.js";
 import bloxlinkGuild from "@codiium/bloxlink-api/guild";
 import embed from "../resources/templates/embed";
 import noblox from "noblox.js";
@@ -24,19 +29,21 @@ export class OperationButtonHandler extends InteractionHandler {
 
   public async run(interaction: ButtonInteraction, post: boolean) {
     if (post) {
+      const training = interaction.message.content.includes("`training`");
+
       const routesChannel = await interaction.guild?.channels.fetch(Config.channels.routes);
       const trainingsChannel = await interaction.guild?.channels.fetch(Config.channels.trainings);
 
       try {
-        if (interaction.message.content.includes("`training`")) {
+        if (training) {
           (trainingsChannel as TextChannel).send({
-            content: `<@&${Config.roleIds.studentDriver}>`,
+            // content: `<@&${Config.roleIds.studentDriver}>`,
             // biome-ignore lint/style/noNonNullAssertion: <explanation>
             embeds: [interaction.message.embeds[0]!],
           });
         } else {
           (routesChannel as TextChannel).send({
-            content: `<@&${Config.roleIds.busDriver}>`,
+            // content: `<@&${Config.roleIds.busDriver}>`,
             // biome-ignore lint/style/noNonNullAssertion: <explanation>
             embeds: [interaction.message.embeds[0]!],
           });
@@ -48,6 +55,29 @@ export class OperationButtonHandler extends InteractionHandler {
           components: [],
         });
       }
+      const timeRegex: RegExpMatchArray =
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        interaction.message.embeds[0]!.fields[2]!.value.match(/(\d+)/)!;
+      const time = new Date(0);
+      time.setSeconds(Number.parseInt(timeRegex[0]));
+
+      const timeLater = new Date(0);
+      timeLater.setSeconds(Number.parseInt(timeRegex[0]) + 5400);
+
+      (await this.container.client.guilds.fetch(Config.guildId)).scheduledEvents.create({
+        name: training ? "EBC CDL Training" : "Route: Redwater, Virginia",
+        scheduledStartTime: time,
+        scheduledEndTime: timeLater,
+        privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
+        entityType: GuildScheduledEventEntityType.External,
+        description: `A ${training ? "CDL Training is being hosted" : "Route is being hosted in Redwater, Virginia"}`,
+        entityMetadata: {
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
+          location: interaction.message.embeds[0]!.fields[4]!.value,
+        },
+        image: null,
+        reason: `Triggered by @${interaction.user.username}`,
+      });
 
       // biome-ignore lint/style/noNonNullAssertion: <explanation>
       const discordId = interaction.message.embeds[0]!.fields[0]!.value.split("<@")[1]!.split(">")[0]!;
@@ -56,11 +86,6 @@ export class OperationButtonHandler extends InteractionHandler {
         const bloxlinkUser = (await bloxlinkGuild.DiscordToRoblox(Config.guildId, discordId)).robloxID;
 
         const robloxUsername = await noblox.getUsernameFromId(Number.parseInt(bloxlinkUser));
-        const timeRegex: RegExpMatchArray | null =
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
-          interaction.message.embeds[0]!.fields[2]!.value.match(/(\d+)/);
-        const time = new Date(1970, 0, 1);
-        if (timeRegex != null) time.setSeconds(Number.parseInt(timeRegex[0]));
       } catch (error) {
         console.log(error);
       }
