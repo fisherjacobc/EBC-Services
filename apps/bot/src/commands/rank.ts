@@ -14,6 +14,7 @@ import {
 } from "discord.js";
 import colors from "../resources/constants/colors";
 import { rank } from "../resources/modules/roblox";
+import emojis from "../resources/constants/emojis";
 
 export class RankCommand extends Subcommand {
   public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -188,7 +189,7 @@ export class RankCommand extends Subcommand {
           value: `[${await noblox.getUsernameFromId(userId)}](https://roblox.com/users/${userId})`,
         },
         {
-          name: "Rank",
+          name: `${emojis.fleetpoint.MessageBlue} Rank`,
           value: `${(await noblox.getRole(Config.groupId, rankId)).name}`,
         },
         {
