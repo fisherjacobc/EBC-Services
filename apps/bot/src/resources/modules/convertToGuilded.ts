@@ -123,7 +123,7 @@ export const convertToGuilded = (tokens: TokensList, image?: string) => {
   return jsonBody;
 };
 
-export const discordImageToGuilded = async (attachment?: Attachment): Promise<string | undefined> => {
+export const discordImageToGuilded = async (attachment?: Attachment | null): Promise<string | undefined> => {
   if (!attachment) return undefined;
   if (!attachment.contentType?.includes("image")) return undefined;
   const { url } = attachment;
@@ -160,7 +160,7 @@ export const announceToGuilded = async (body: object) => {
       headers,
     });
 
-    return "Forwarded Successfully!";
+    return "Announced Successfully!";
   } catch (error) {
     console.log(error);
     return "An unknown error occurred.";
