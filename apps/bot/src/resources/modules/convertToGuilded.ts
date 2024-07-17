@@ -53,23 +53,23 @@ export const createImage = (image: string) => {
       name: "AnnouncementImage.webp",
     },
     nodes: [
-      {
-        object: "block",
-        type: "image-caption-line",
-        data: {},
-        nodes: [
-          {
-            object: "text",
-            leaves: [
-              {
-                object: "leaf",
-                text: "Announcement Image",
-                marks: [],
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   object: "block",
+      //   type: "image-caption-line",
+      //   data: {},
+      //   nodes: [
+      //     {
+      //       object: "text",
+      //       leaves: [
+      //         {
+      //           object: "leaf",
+      //           text: "Announcement Image",
+      //           marks: [],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   };
 };
